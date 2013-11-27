@@ -1,0 +1,76 @@
+/*
+Copyright (c) 2013, Roman Glebsky (Maqentaer)
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met: 
+
+1. Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer. 
+2. Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution. 
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those
+of the authors and should not be interpreted as representing official policies, 
+either expressed or implied, of the FreeBSD Project.
+*/
+
+// This file will be processed by the MIDL tool to
+// produce the type library (LDAPQueryLib.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(0CE2E92E-70E7-4682-9E4F-13C1C0D43435),
+	dual,
+	nonextensible,
+	helpstring("ILDAPQuery Interface"),
+	pointer_default(unique)
+]
+interface ILDAPQuery : IDispatch
+{
+	[id(0), helpstring("method execQuery")] HRESULT execQuery([in] BSTR username, [in] BSTR password, [in] BSTR host, [in] BSTR basedn, [in] BSTR scope, [in] BSTR filter, [in]BSTR attributes, [in] VARIANT_BOOL usessl, [out,retval] SAFEARRAY(VARIANT)* result);
+	[id(1), helpstring("method getLastError")] HRESULT getLastError([out,retval] LONG* result);
+	[id(2), helpstring("method connect")] HRESULT connect([in] BSTR username, [in] BSTR password, [in] BSTR host, [in] VARIANT_BOOL usessl, [out,retval] LONG* connect_id);
+	[id(3), helpstring("method close")] HRESULT close([in] LONG connect_id);
+	[id(4), helpstring("method query")] HRESULT query([in] LONG connect_id, [in] BSTR basedn, [in] BSTR scope, [in] BSTR filter, [in]BSTR attributes, [out,retval] SAFEARRAY(VARIANT)* result);
+	[id(5), helpstring("method pageQuery")] HRESULT pageQuery([in] LONG connect_id, [in] BSTR basedn, [in] BSTR scope, [in] BSTR filter, [in]BSTR attributes, [in] ULONG total_results, [out,retval] LONG* results_id);
+	[id(6), helpstring("method nextResults")] HRESULT nextResults([in] LONG results_id, [in] ULONG num_results, [out,retval] SAFEARRAY(VARIANT)* result);
+	[id(7), helpstring("method rename")] HRESULT rename([in] LONG connect_id, [in] BSTR dn, [in] BSTR newRDN, [in] BSTR newParent, [in] BOOL deleteOldRdn);
+	[id(8), helpstring("method dn2ufn")] HRESULT dn2ufn([in] BSTR dn, [out,retval] BSTR* ufn);
+	[id(9), helpstring("method ufn2dn")] HRESULT ufn2dn([in] BSTR ufn, [out,retval] BSTR* dn);
+	[id(10), helpstring("method err2string")] HRESULT err2string([in] ULONG ufn, [out,retval] BSTR* string);
+	[id(11), helpstring("method explodeDn")] HRESULT explodeDn([in] BSTR str, [in] ULONG notypes, [out,retval] SAFEARRAY(VARIANT)* result);
+};
+
+[
+	uuid(E710AB37-2E11-40df-B982-292A3D721C81),
+	version(1.0),
+	helpstring("LDAPQueryLib 1.0 Type Library")
+]
+library LDAPQueryLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(FC08F164-F94E-4060-B9A0-10FBB23B4EFF),
+		helpstring("LDAPQuery Class")
+	]
+	coclass LDAPQuery
+	{
+		[default] interface ILDAPQuery;
+	};
+};

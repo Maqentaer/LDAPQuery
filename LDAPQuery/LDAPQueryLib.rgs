@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'%APPID%' = s 'LDAPQueryLib'
+		'LDAPQueryLib.dll'
+		{
+			val AppID = s '%APPID%'
+		}
+	}
+}

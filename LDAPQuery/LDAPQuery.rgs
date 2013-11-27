@@ -1,0 +1,26 @@
+HKCR
+{
+	DeskAlertsServer.LDAPQuery.1 = s 'LDAPQuery Class'
+	{
+		CLSID = s '{FC08F164-F94E-4060-B9A0-10FBB23B4EFF}'
+	}
+	DeskAlertsServer.LDAPQuery = s 'LDAPQuery Class'
+	{
+		CLSID = s '{FC08F164-F94E-4060-B9A0-10FBB23B4EFF}'
+		CurVer = s 'LDAPQueryLib.LDAPQuery.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {FC08F164-F94E-4060-B9A0-10FBB23B4EFF} = s 'LDAPQuery Class'
+		{
+			ProgID = s 'LDAPQueryLib.LDAPQuery.1'
+			VersionIndependentProgID = s 'LDAPQueryLib.LDAPQuery'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{E710AB37-2E11-40df-B982-292A3D721C81}'
+		}
+	}
+}
